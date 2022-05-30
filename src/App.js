@@ -53,7 +53,7 @@ function App() {
 
   function handleChange(e) {
     const value = +e.target.value;
-  
+
     setNumber(value);
     // console.log(number);
   }
@@ -165,7 +165,6 @@ function App() {
           onChange={handleChange}
           value={number}
           min={1}
-          minLength={1}
           max={5}
         />
         <button onClick={handleButton}>shoot</button>
