@@ -15,7 +15,8 @@ function App() {
     return rand;
   }
 
-  function GenerateRandom(min = 0, max = 255) {
+  // assign random background color to child items
+  function GenerateRandom() {
     let firstItem = document.querySelector(".first");
     let secondItem = document.querySelector(".second");
     let thirdItem = document.querySelector(".third");
@@ -25,7 +26,7 @@ function App() {
     for (let i = 1; i <= 5; i++) {
       switch (i) {
         case 1: {
-          firstItem.style.cssText = `background-color : rgb(${generateColor()}, ${generateColor()}, ${generateColor()}`;
+          firstItem.style.backgroundColor = `rgb(${generateColor()}, ${generateColor()}, ${generateColor()})`;
           break;
         }
         case 2: {
@@ -47,17 +48,18 @@ function App() {
       }
     }
   }
+
   useEffect(() => {
     GenerateRandom();
   }, []);
 
+  // When the changes happen inside input box it will track that changes
   function handleChange(e) {
     const value = +e.target.value;
-
     setNumber(value);
-    // console.log(number);
   }
 
+  // When we click to any items inside the left container, It will responsive to dispatch item to their original position in the center container
   function handleItem(e) {
     let className = e.target.className;
     let node = document.getElementsByClassName(className)[0];
@@ -87,8 +89,13 @@ function App() {
       if (noOfChildren) {
         let ref = childCenter.firstChild;
         let className = childCenter.firstChild.className;
-        if (className === "first" && ref.nextSibling.className !== "second") {
-          ref.parentNode.insertBefore(node, ref.nextSibling);
+        if (className === "first") {
+          if (!ref.nextSibling) {
+            ref.parentNode.insertBefore(node, ref.nextSibling);
+          } else {
+            ref.parentNode.insertBefore(node, ref.nextSibling.nextSibling);
+          }
+          // ref.parentNode.insertBefore(node, ref.nextSibling);
         } else if (className === "second") {
           ref.parentNode.insertBefore(node, ref.nextSibling);
         } else {
@@ -114,6 +121,7 @@ function App() {
     }
   }
 
+  // When we enter any number between 1 to 5 inside input box then click to shoot button, It will responsible for append that particular item to inside the left container
   function handleButton() {
     switch (number) {
       case 1: {
@@ -152,6 +160,7 @@ function App() {
   return (
     <div className="parent">
       <div className="child-left"></div>
+
       <div className="child-center">
         <div className="first" onClick={handleItem}></div>
         <div className="second" onClick={handleItem}></div>
@@ -159,6 +168,7 @@ function App() {
         <div className="forth" onClick={handleItem}></div>
         <div className="fifth" onClick={handleItem}></div>
       </div>
+
       <div className="child-right">
         <input
           type="number"
@@ -167,6 +177,7 @@ function App() {
           min={1}
           max={5}
         />
+
         <button onClick={handleButton}>shoot</button>
       </div>
     </div>
