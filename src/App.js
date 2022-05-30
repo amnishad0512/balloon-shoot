@@ -136,7 +136,7 @@ function App() {
 
       // When we click on fifth item
       childCenter.appendChild(node);
-      
+
     }
   }
   function handleButton() {
